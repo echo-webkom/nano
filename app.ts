@@ -10,7 +10,7 @@ app.use("/strike", auth());
 
 app.get("/", async (c) => {
   const strikes = await getAmountOfStrikes();
-  return c.text(`Strikes issued: ${strikes}`);
+  return c.text(`${strikes}`);
 });
 
 app.post("/strike", async (c) => {
