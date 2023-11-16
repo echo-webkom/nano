@@ -38,3 +38,16 @@ export async function addStrike(userId: string) {
     return false;
   }
 }
+
+/**
+ * Remove all strikes
+ */
+export async function clearStrikes() {
+  const strikes = kv.list<Strike>({
+    prefix: ["strike"],
+  });
+
+  for await (const strike of strikes) {
+    await kv.delete(strike.key);
+  }
+}
