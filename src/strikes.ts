@@ -1,5 +1,9 @@
-import { Strike } from "./model.ts";
-import { kv } from "./kv.ts";
+const kv = await Deno.openKv();
+
+export type Strike = {
+  userId: string;
+  issuedAt: Date;
+};
 
 /**
  * Get amount of strikes

@@ -1,5 +1,22 @@
 {
   "version": "3",
+  "packages": {
+    "specifiers": {
+      "npm:@hono/swagger-ui": "npm:@hono/swagger-ui@0.1.0_hono@3.10.1"
+    },
+    "npm": {
+      "@hono/swagger-ui@0.1.0_hono@3.10.1": {
+        "integrity": "sha512-W5WEEhk2QtiqdSfM40FcK98Q5Bz4H/NfNqBUSkcZ46ys+DG4wt1yGsmRZgdJMje6t5Vn8eFN+9nyO+/dAp3drA==",
+        "dependencies": {
+          "hono": "hono@3.10.1"
+        }
+      },
+      "hono@3.10.1": {
+        "integrity": "sha512-4jPKCmYWLAoCMpmvOU+xNOQYdcNftip7sM/IsO8EPyGAtjk9fGNyUchG6huSzLrY449WDNGFPetVs5doepNnlA==",
+        "dependencies": {}
+      }
+    }
+  },
   "redirects": {
     "https://deno.land/x/hono/middleware.ts": "https://deno.land/x/hono@v3.10.1/middleware.ts"
   },
