@@ -1,5 +1,4 @@
-import { Hono } from "https://deno.land/x/hono@v3.12.11/mod.ts";
-import { logger } from "https://deno.land/x/hono@v3.12.11/middleware.ts";
+import { Hono, logger } from "../deps.ts";
 import { addStrike, clearStrikes, getAmountOfStrikes } from "./strikes.ts";
 import { auth } from "./middleware.ts";
 

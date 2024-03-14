@@ -1,5 +1,4 @@
-import { bearerAuth } from "https://deno.land/x/hono@v3.12.11/middleware.ts";
-import { MiddlewareHandler } from "https://deno.land/x/hono@v3.12.11/mod.ts";
+import { type MiddlewareHandler, bearerAuth } from "../deps.ts";
 
 const AUTH_KEY = Deno.env.get("AUTH_KEY");
 
