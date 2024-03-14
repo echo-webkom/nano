@@ -6,7 +6,7 @@ const app = new Hono();
 
 app.use("*", logger());
 
-app.get("/", auth, async (c) => {
+app.get("/", async (c) => {
   const strikes = await getAmountOfStrikes();
 
   return c.text(`${strikes}`);
@@ -19,7 +19,7 @@ app.post("/strike", auth, async (c) => {
   return c.text(`${res}`);
 });
 
-app.post("/reset", async (c) => {
+app.post("/reset", auth, async (c) => {
   await clearStrikes();
 
   return c.text("OK");
