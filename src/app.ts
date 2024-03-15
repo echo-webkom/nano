@@ -25,4 +25,4 @@ app.post("/reset", auth, async (c) => {
   return c.text("OK");
 });
 
-export { app };
+export default app;
