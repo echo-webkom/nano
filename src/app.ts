@@ -30,7 +30,7 @@ app.post("/strike", auth, async (c) => {
 });
 
 app.get("/reset", auth, async (c) => {
-  await Striker.reset(c.env.KV);
+  await Promise.all([Striker.reset(c.env.KV), Reporter.reset(c.env.KV)]);
   return c.text("0");
 });
 
