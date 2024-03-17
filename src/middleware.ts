@@ -1,6 +1,18 @@
-import { type MiddlewareHandler, bearerAuth } from "../deps.ts";
+import { MiddlewareHandler } from "hono";
+import { Bindings } from "hono/types";
 
-const AUTH_KEY = Deno.env.get("AUTH_KEY");
+export const auth: MiddlewareHandler<{ Bindings: Bindings }> = async (
+  c,
+  next
+) => {
+  if (!c.env.SECRET) {
+    return next();
+  }
 
-export const auth = (): MiddlewareHandler =>
-  AUTH_KEY ? bearerAuth({ token: AUTH_KEY }) : (_, next) => next();
+  const token = c.req.header("Authorization");
+  if (token !== `Bearer ${c.env.SECRET}`) {
+    return c.text("Unauthorized", { status: 401 });
+  }
+
+  return next();
+};

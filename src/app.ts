@@ -1,28 +1,37 @@
-import { Hono, logger } from "../deps.ts";
-import { addStrike, clearStrikes, getAmountOfStrikes } from "./strikes.ts";
-import { auth } from "./middleware.ts";
+import { Hono } from "hono";
+import * as Striker from "./striker";
+import * as Reporter from "./reporter";
+import { auth } from "./middleware";
 
-const app = new Hono();
+export type Bindings = {
+  KV: KVNamespace;
+  SECRET: string;
+};
 
-app.use("*", logger());
+const app = new Hono<{ Bindings: Bindings }>();
 
 app.get("/", async (c) => {
-  const strikes = await getAmountOfStrikes();
-
+  const strikes = await Striker.get(c.env.KV);
   return c.text(`${strikes}`);
 });
 
 app.post("/strike", auth, async (c) => {
-  const body = await c.req.json<{ userId: string }>();
-  const res = await addStrike(body.userId);
+  let reporter: string;
+  try {
+    reporter = await c.req
+      .json<{ reporter: string }>()
+      .then((json) => json.reporter);
+  } catch {
+    return c.text("Bad Request", { status: 400 });
+  }
 
-  return c.text(`${res}`);
+  const updated = await Reporter.add(c.env.KV, reporter);
+  return c.text(`${updated}`);
 });
 
-app.post("/reset", auth, async (c) => {
-  await clearStrikes();
-
-  return c.text("OK");
+app.get("/reset", auth, async (c) => {
+  await Striker.reset(c.env.KV);
+  return c.text("0");
 });
 
 export default app;

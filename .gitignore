@@ -1,5 +1,10 @@
-.env*
-!.env.example
-db
-.DS_Store
+node_modules
+dist
+.wrangler
+.dev.vars
 
+# Change them to your taste:
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
