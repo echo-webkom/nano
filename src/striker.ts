@@ -2,19 +2,17 @@ export const KEY = "strikes";
 export const TTL = 60 * 60 * 24 * 7; // 7 days
 
 export const get = async (kv: KVNamespace): Promise<number> => {
-  return Number(await kv.get(KEY));
+  return kv.list({ prefix: KEY }).then((keys) => keys.keys.length);
 };
 
-export const increment = async (kv: KVNamespace): Promise<number> => {
-  const current = await get(kv);
-  const updated = current + 1;
+export const add = async (kv: KVNamespace): Promise<number> => {
   const expiration = Date.now() / 1000 + TTL;
+  await kv.put(`${KEY}:${Date.now()}`, "", { expiration });
 
-  await kv.put(KEY, `${updated}`, { expiration });
-
-  return updated;
+  return get(kv);
 };
 
 export const reset = async (kv: KVNamespace): Promise<void> => {
-  await kv.delete(KEY);
+  const keys = await kv.list({ prefix: KEY });
+  await Promise.all(keys.keys.map((key) => kv.delete(key.name)));
 };

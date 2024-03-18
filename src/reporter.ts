@@ -14,7 +14,7 @@ export const add = async (
 
   const totalReports = await get(kv);
   if (totalReports >= REPORTS_UNTIL_STRIKE) {
-    await Striker.increment(kv);
+    await Striker.add(kv);
     await reset(kv);
   }
 
