@@ -1,3 +1,4 @@
+import { Cron } from "./cron";
 import { createDatabase } from "./db/client";
 import { validateEnv } from "./env";
 import {
@@ -20,6 +21,9 @@ export type AppContext = {
 };
 
 export default {
+  async fetch() {
+    return new Response("OK");
+  },
   async scheduled(controller: ScheduledController, env: Env) {
     validateEnv(env);
     const db = createDatabase(env.DATABASE_URL);
@@ -30,40 +34,12 @@ export default {
       db,
     } satisfies AppContext;
 
-    switch (controller.cron) {
-      /**
-       * Runs at 00:00 on the 1st of January and July
-       *
-       * Delete sensitive questions
-       */
-      case "0 0 1 1,7 *":
-        await Promise.all([
-          deleteSensitiveQuestions(ctx),
-          deleteOldStrikes(ctx),
-        ]);
+    const cron = new Cron(ctx, controller);
 
-        break;
-
-      /**
-       * Runs at 00:00 on the 1st of July
-       */
-      case "0 0 1 7 *":
-        await resetYear(ctx);
-        break;
-
-      /**
-       * Runs every day at 02:00
-       */
-      case "0 2 * * *":
-        await unbanUsers(ctx);
-        break;
-
-      /**
-       * Runs every day at 17:00
-       */
-      case "0 17 * * *":
-        await checkForNewFeedbacks(ctx);
-        break;
-    }
+    cron.at("0 0 1 1,7 *", deleteSensitiveQuestions);
+    cron.at("0 0 1 1,7 *", deleteOldStrikes);
+    cron.at("0 0 1 7 *", resetYear);
+    cron.at("0 2 * * *", unbanUsers);
+    cron.at("0 17 * * *", checkForNewFeedbacks);
   },
 };
