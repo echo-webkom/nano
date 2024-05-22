@@ -1,0 +1,31 @@
+name: 🚀 Deploy kaffe worker
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "kaffe/**"
+
+jobs:
+  deploy-kaffe:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: kaffe
+
+      - name: ⚙️ Build & Deploy kaffe
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: kaffe
+          packageManager: "pnpm"

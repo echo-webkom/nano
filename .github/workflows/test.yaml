@@ -24,6 +24,7 @@ jobs:
         run: pnpm install
 
       - name: 📝 Create .dev.vars
+        working-directory: kaffe
         run: |
           echo "SECRET=foobar" > .dev.vars
 
@@ -45,6 +46,7 @@ jobs:
         run: pnpm install
 
       - name: 📝 Create .dev.vars
+        working-directory: echogram
         run: |
           echo "SECRET=foobar" > .dev.vars
 
