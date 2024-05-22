@@ -1,0 +1,22 @@
+{
+  "name": "@echo-webkom/crons",
+  "scripts": {
+    "build": "tsc",
+    "dev": "wrangler dev src/index.ts",
+    "deploy": "wrangler deploy --minify src/index.ts",
+    "test": "vitest",
+    "db:typegen": "kysely-codegen --env-file .dev.vars --out-file \"./src/db/types.ts\""
+  },
+  "dependencies": {
+    "kysely": "0.27.3",
+    "kysely-postgres-js": "2.0.0",
+    "postgres": "^3.4.4"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20240512.0",
+    "kysely-codegen": "^0.15.0",
+    "pg": "^8.11.5",
+    "typescript": "5.4.5",
+    "wrangler": "3.57.1"
+  }
+}

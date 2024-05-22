@@ -1,0 +1,31 @@
+name: 🚀 Deploy crons worker
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "crons/**"
+
+jobs:
+  deploy-crons:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: crons
+
+      - name: ⚙️ Build & Deploy crons
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: crons
+          packageManager: "pnpm"
