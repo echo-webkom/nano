@@ -3,7 +3,9 @@ import { describe, it, expect } from "vitest";
 
 describe("echogram", () => {
   it("should respond with 200", async () => {
-    const resp = await SELF.fetch("http://kaffe.no/healthcheck");
+    const resp = await SELF.fetch("http://echogram.no/healthcheck");
+
+    console.log(resp);
 
     expect(resp.status).toBe(200);
   });
