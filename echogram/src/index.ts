@@ -49,6 +49,16 @@ app.post("/:id", auth, async (c) => {
   });
 });
 
+app.delete("/:id", auth, async (c) => {
+  const { id } = c.req.param();
+
+  await c.env.R2.delete(id);
+
+  return c.json({
+    message: "File deleted",
+  });
+});
+
 app.get("/healthcheck", async (c) => {
   return c.json({ status: "ok" });
 });
