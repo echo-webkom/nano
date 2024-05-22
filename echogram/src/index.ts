@@ -59,8 +59,4 @@ app.delete("/:id", auth, async (c) => {
   });
 });
 
-app.get("/healthcheck", async (c) => {
-  return c.json({ status: "ok" });
-});
-
 export default app;
