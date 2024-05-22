@@ -1,0 +1,19 @@
+{
+  "name": "@echo-webkom/echogram",
+  "scripts": {
+    "build": "tsc",
+    "dev": "wrangler dev src/index.ts",
+    "deploy": "wrangler deploy --minify src/index.ts",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "hono": "4.2.7"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "0.1.2",
+    "@cloudflare/workers-types": "4.20240208.0",
+    "typescript": "5.4.2",
+    "vitest": "1.3.0",
+    "wrangler": "3.32.0"
+  }
+}

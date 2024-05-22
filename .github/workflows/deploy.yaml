@@ -4,21 +4,76 @@ on:
   push:
     branches:
       - main
+
 jobs:
-  deploy:
+  determine-changes:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    outputs:
+      kaffe-changed: ${{ steps.determine.outputs.kaffe-changed }}
+      echogram-changed: ${{ steps.determine.outputs.echogram-changed }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine changes
+        id: determine
+        run: |
+          files=$(git diff --name-only HEAD^ HEAD)
+          if echo "$files" | grep -E '^echogram/' > /dev/null; then
+            echo "echogram-changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "echogram-changed=false" >> $GITHUB_OUTPUT
+          fi
+          if echo "$files" | grep -E '^kaffe/' > /dev/null; then
+            echo "kaffe-changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "kaffe-changed=false" >> $GITHUB_OUTPUT
+          fi
+
+  deploy-kaffe:
+    runs-on: ubuntu-latest
+    needs: determine-changes
+    if: needs.determine-changes.outputs.kaffe-changed == 'true'
 
     steps:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
 
-      - name: ⚙️ Build & Deploy Worker
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: kaffe
+
+      - name: ⚙️ Build & Deploy kaffe
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: kaffe
+          packageManager: "pnpm"
+
+  deploy-echogram:
+    runs-on: ubuntu-latest
+    needs: determine-changes
+    if: needs.determine-changes.outputs.echogram-changed == 'true'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: echogram
+
+      - name: ⚙️ Build & Deploy echogram
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: echogram
           packageManager: "pnpm"

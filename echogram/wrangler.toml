@@ -1,0 +1,9 @@
+name = "echogram"
+main = "src/index.ts"
+compatibility_date = "2023-12-01"
+
+compatibility_flags = [ "nodejs_compat" ]
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "echogram-bucket"
