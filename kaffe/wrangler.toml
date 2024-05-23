@@ -7,3 +7,6 @@ compatibility_flags = [ "nodejs_compat" ]
 [[kv_namespaces]]
 binding = "KV"
 id = "071f5174773f4069a8e34879546d0480"
+
+[dev]
+port = 8002

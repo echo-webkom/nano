@@ -7,3 +7,6 @@ compatibility_flags = [ "nodejs_compat" ]
 [[r2_buckets]]
 binding = "R2"
 bucket_name = "echogram-bucket"
+
+[dev]
+port = 8001

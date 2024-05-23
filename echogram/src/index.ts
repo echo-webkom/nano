@@ -18,7 +18,8 @@ app.get("/:id", async (c) => {
     return c.json({ message: "Not found" });
   }
 
-  const headers = new Headers(Object.entries(object.httpMetadata ?? {}));
+  const headers = new Headers();
+  object.writeHttpMetadata(headers);
   headers.set("etag", object.etag);
 
   return new Response(object.body, {

@@ -4,5 +4,20 @@ Monorepo for nano-services deployed to Cloudflare.
 
 ## Projects
 
-- [Kaffe as a Service](./kaffe)
-- [echogram v2](./echogram)
+### Crons
+
+Crons is a service to run cron jobs.
+
+Runs on port `8000`
+
+### echogram
+
+echogram is a service to upload and view profile images of users.
+
+Runs on port `8001`
+
+### Kaffe
+
+Kaffe is a service to keep track of strikes on the coffe machine in the study hall.
+
+Runs on port `8002`
