@@ -17,7 +17,7 @@ const REPORTS_UNTIL_STRIKE = 2;
  */
 export const add = async (
   kv: KVNamespace,
-  reporter: string
+  reporter: string,
 ): Promise<number> => {
   const expiration = Date.now() / 1000 + TTL;
   await kv.put(`${KEY}:${Date.now()}`, reporter, { expiration });

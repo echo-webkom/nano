@@ -1,4 +1,4 @@
-import { AppContext } from ".";
+import type { AppContext } from ".";
 
 export class Cron {
   ctx: AppContext;

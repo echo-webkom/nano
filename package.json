@@ -1,6 +1,12 @@
 {
   "name": "@echo-webkom/nano",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --apply .",
+    "check": "biome check ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.7.3"
   }
 }

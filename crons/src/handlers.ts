@@ -1,5 +1,5 @@
 import { sql } from "kysely";
-import { AppContext } from "./index";
+import type { AppContext } from "./index";
 
 export const deleteSensitiveQuestions = async (ctx: AppContext) => {
   const result = await ctx.db
@@ -12,7 +12,7 @@ export const deleteSensitiveQuestions = async (ctx: AppContext) => {
         .leftJoin("happening", "happening_id", "id")
         .where("date", "<", sql<Date>`NOW() - INTERVAL '30 days'`)
         .where("is_sensitive", "=", true)
-        .select("id")
+        .select("id"),
     )
     .execute();
   console.log(`Deleted ${result.length} sensitive questions`);
@@ -73,7 +73,7 @@ export const checkForNewFeedbacks = async (ctx: AppContext) => {
         })</p>
         <p>${feedback.message}</p>
       </div>
-      </li>`
+      </li>`,
       ),
       "</ul>",
     ].join("");
