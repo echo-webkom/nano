@@ -1,4 +1,4 @@
-import type { AppContext } from ".";
+import type { AppContext } from "./ctx";
 
 export class Cron {
   ctx: AppContext;
@@ -13,5 +13,7 @@ export class Cron {
     if (this.controller.cron === time) {
       handler(this.ctx);
     }
+
+    return this;
   }
 }

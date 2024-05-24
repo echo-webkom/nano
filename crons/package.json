@@ -2,7 +2,7 @@
   "name": "@echo-webkom/crons",
   "scripts": {
     "build": "tsc",
-    "dev": "wrangler dev src/index.ts",
+    "dev": "wrangler dev src/index.ts --test-scheduled",
     "deploy": "wrangler deploy --minify src/index.ts",
     "test": "vitest",
     "db:typegen": "kysely-codegen --env-file .dev.vars --out-file \"./src/db/types.ts\""

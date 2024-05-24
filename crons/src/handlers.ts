@@ -1,5 +1,5 @@
 import { sql } from "kysely";
-import type { AppContext } from "./index";
+import type { AppContext } from "./ctx";
 
 export const deleteSensitiveQuestions = async (ctx: AppContext) => {
   const result = await ctx.db
@@ -47,8 +47,6 @@ export const resetYear = async (ctx: AppContext) => {
 };
 
 export const checkForNewFeedbacks = async (ctx: AppContext) => {
-  const email = new EmailClient(ctx.env.RESEND_API_KEY);
-
   const feedbacks = await ctx.db
     .selectFrom("site_feedback")
     .selectAll()
@@ -59,6 +57,8 @@ export const checkForNewFeedbacks = async (ctx: AppContext) => {
   console.log(`Found ${feedbacks.length} new feedbacks`);
 
   if (feedbacks.length > 0) {
+    const email = new EmailClient(ctx.env.RESEND_API_KEY);
+
     const to = ["me@omfj.no", "n.d.engh@gmail.com", "KjetilAlvestad@gmail.com"];
     const subject = `${feedbacks.length} ny(e) tilbakemeldinger på echo.uib.no`;
 
