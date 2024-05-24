@@ -40,6 +40,6 @@ export default {
     cron.at("0 0 1 1,7 *", deleteOldStrikes);
     cron.at("0 0 1 7 *", resetYear);
     cron.at("0 2 * * *", unbanUsers);
-    cron.at("0 17 * * *", checkForNewFeedbacks);
+    cron.at("0 19 * * *", checkForNewFeedbacks);
   },
 };
