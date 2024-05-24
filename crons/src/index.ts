@@ -29,6 +29,6 @@ export default {
       .at("0 0 1 1,7 *", deleteOldStrikes)
       .at("0 0 1 7 *", resetYear)
       .at("0 2 * * *", unbanUsers)
-      .at("0 19 * * *", checkForNewFeedbacks);
+      .at("0 16 * * *", checkForNewFeedbacks);
   },
 };

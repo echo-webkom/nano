@@ -1,5 +1,7 @@
 # Crons
 
+All times are in UTC, which is two hours behind Norway/Oslo.
+
 ## Delete sensitive data
 
 > Runs at 00:00 on the 1st of Juanuary and July.
@@ -26,6 +28,6 @@ Unban users that have invalid strikes.
 
 ## Check for new feedbacks
 
-> Runs every day at 17:00.
+> Runs every day at 16:00.
 
 Send an email to notify of new feedbacks.
