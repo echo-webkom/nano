@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "echogram/**"
+      - "apps/echogram/**"
 
 jobs:
   deploy:
@@ -20,12 +20,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-        working-directory: echogram
+        working-directory: apps/echogram
 
       - name: ⚙️ Build & Deploy echogram
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: echogram
+          workingDirectory: apps/echogram
           packageManager: "pnpm"

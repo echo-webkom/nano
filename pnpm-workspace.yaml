@@ -1,4 +1,3 @@
 packages:
-  - kaffe
-  - echogram
-  - crons
+  - apps/*
+  - packages/*

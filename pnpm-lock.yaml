@@ -11,18 +11,40 @@ importers:
       '@biomejs/biome':
         specifier: 1.7.3
         version: 1.7.3
+      vitest:
+        specifier: 1.5.0
+        version: 1.5.0(@types/node@20.12.12)
 
-  crons:
+  apps/boomtown:
     dependencies:
-      kysely:
-        specifier: 0.27.3
-        version: 0.27.3
-      kysely-postgres-js:
-        specifier: 2.0.0
-        version: 2.0.0(kysely@0.27.3)(postgres@3.4.4)
-      postgres:
-        specifier: ^3.4.4
-        version: 3.4.4
+      '@echo-webkom/nano-db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      hono:
+        specifier: 4.3.9
+        version: 4.3.9
+    devDependencies:
+      '@cloudflare/vitest-pool-workers':
+        specifier: 0.2.12
+        version: 0.2.12(@cloudflare/workers-types@4.20240512.0)(@vitest/runner@1.6.0)(@vitest/snapshot@1.6.0)(vitest@1.5.0(@types/node@20.12.12))
+      '@cloudflare/workers-types':
+        specifier: 4.20240512.0
+        version: 4.20240512.0
+      typescript:
+        specifier: 5.4.5
+        version: 5.4.5
+      vitest:
+        specifier: 1.5.0
+        version: 1.5.0(@types/node@20.12.12)
+      wrangler:
+        specifier: 3.57.1
+        version: 3.57.1(@cloudflare/workers-types@4.20240512.0)
+
+  apps/crons:
+    dependencies:
+      '@echo-webkom/nano-db':
+        specifier: workspace:*
+        version: link:../../packages/db
     devDependencies:
       '@cloudflare/vitest-pool-workers':
         specifier: 0.2.12
@@ -46,7 +68,7 @@ importers:
         specifier: 3.57.1
         version: 3.57.1(@cloudflare/workers-types@4.20240512.0)
 
-  echogram:
+  apps/echogram:
     dependencies:
       hono:
         specifier: 4.3.9
@@ -68,7 +90,7 @@ importers:
         specifier: 3.57.1
         version: 3.57.1(@cloudflare/workers-types@4.20240512.0)
 
-  kaffe:
+  apps/kaffe:
     dependencies:
       hono:
         specifier: 4.3.9
@@ -89,6 +111,22 @@ importers:
       wrangler:
         specifier: 3.57.1
         version: 3.57.1(@cloudflare/workers-types@4.20240512.0)
+
+  packages/db:
+    dependencies:
+      kysely:
+        specifier: 0.27.3
+        version: 0.27.3
+      kysely-postgres-js:
+        specifier: 2.0.0
+        version: 2.0.0(kysely@0.27.3)(postgres@3.4.4)
+      postgres:
+        specifier: ^3.4.4
+        version: 3.4.4
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: 4.20240512.0
+        version: 4.20240512.0
 
 packages:
 
@@ -819,6 +857,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
+    deprecated: Glob versions prior to v9 are no longer supported
 
   has-flag@3.0.0:
     resolution: {integrity: sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw==}

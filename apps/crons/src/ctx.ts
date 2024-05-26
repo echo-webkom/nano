@@ -1,5 +1,5 @@
 import type { Env } from ".";
-import { createDatabase } from "./db/client";
+import { createDatabase } from "@echo-webkom/nano-db";
 
 export type AppContext = {
   env: Env;
@@ -7,7 +7,7 @@ export type AppContext = {
 };
 
 export const createContext = (env: Env): AppContext => {
-  const db = createDatabase(env.DATABASE_URL);
+  const db = createDatabase(env.HYPERDRIVE);
   const ctx = {
     env: {
       ...env,

@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths:
-      - "crons/**"
+      - "apps/crons/**"
+      - "packages/db/**"
 
 jobs:
   deploy-crons:
@@ -20,12 +21,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-        working-directory: crons
+        working-directory: apps/crons
 
       - name: ⚙️ Build & Deploy crons
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: crons
+          workingDirectory: apps/crons
           packageManager: "pnpm"

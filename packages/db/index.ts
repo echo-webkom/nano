@@ -3,9 +3,11 @@ import { PostgresJSDialect } from "kysely-postgres-js";
 import postgres from "postgres";
 import type { DB } from "./types";
 
-export const createDatabase = (databaseUrl: string) => {
+export * from "kysely";
+
+export const createDatabase = (hyperdrive: Hyperdrive) => {
   const dialect = new PostgresJSDialect({
-    postgres: postgres(databaseUrl),
+    postgres: postgres(hyperdrive.connectionString),
   });
 
   return new Kysely<DB>({

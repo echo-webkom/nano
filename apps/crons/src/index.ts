@@ -9,9 +9,9 @@ import {
 } from "./handlers";
 
 export type Env = {
-  DATABASE_URL: string;
   RESEND_API_KEY: string;
   ADMIN_KEY: string;
+  HYPERDRIVE: Hyperdrive;
 };
 
 export default {

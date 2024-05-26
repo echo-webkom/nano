@@ -1,6 +1,6 @@
 name = "crons"
 main = "src/index.ts"
-compatibility_date = "2023-12-01"
+compatibility_date = "2024-04-03"
 
 compatibility_flags = [ "nodejs_compat" ]
 
@@ -17,3 +17,9 @@ crons = [
 
 [dev]
 port = 8000
+
+
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "09d5c9c4031c40af8f2553d088037367"
+localConnectionString = "postgres://postgres:postgres@localhost:5432/echo-web" # Change if needed

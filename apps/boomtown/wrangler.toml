@@ -1,0 +1,24 @@
+name = "boomtown"
+main = "src/index.ts"
+compatibility_date = "2024-04-03"
+
+compatibility_flags = [ "nodejs_compat" ]
+
+logpush = true
+workers_dev = false
+
+[dev]
+port = 8004
+
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "09d5c9c4031c40af8f2553d088037367"
+localConnectionString = "postgres://postgres:postgres@localhost:5432/echo-web" # Change if needed
+
+[[durable_objects.bindings]]
+name = "COUNTER"
+class_name = "RegistrationCounter"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["RegistrationCounter"]

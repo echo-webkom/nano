@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "kaffe/**"
+      - "apps/kaffe/**"
 
 jobs:
   deploy-kaffe:
@@ -20,12 +20,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-        working-directory: kaffe
+        working-directory: apps/kaffe
 
       - name: ⚙️ Build & Deploy kaffe
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: kaffe
+          workingDirectory: apps/kaffe
           packageManager: "pnpm"

@@ -1,4 +1,4 @@
-import { sql } from "kysely";
+import { sql } from "@echo-webkom/nano-db";
 import type { AppContext } from "./ctx";
 import { log } from "./logger";
 

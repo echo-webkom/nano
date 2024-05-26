@@ -4,6 +4,7 @@ import { auth } from "./middleware";
 export type Bindings = {
   SECRET: string;
   R2: R2Bucket;
+  HYPERDRIVE: Hyperdrive;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
