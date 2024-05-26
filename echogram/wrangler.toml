@@ -5,6 +5,7 @@ compatibility_date = "2023-12-01"
 compatibility_flags = [ "nodejs_compat" ]
 
 logpush = true
+workers_dev = false
 
 [[r2_buckets]]
 binding = "R2"
