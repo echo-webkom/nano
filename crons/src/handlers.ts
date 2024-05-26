@@ -1,7 +1,10 @@
 import { sql } from "kysely";
 import type { AppContext } from "./ctx";
+import { log } from "./logger";
 
 export const deleteSensitiveQuestions = async (ctx: AppContext) => {
+  log("Deleting sensitive questions");
+
   const result = await ctx.db
     .deleteFrom("answer")
     .where(
@@ -12,21 +15,27 @@ export const deleteSensitiveQuestions = async (ctx: AppContext) => {
         .leftJoin("happening", "happening_id", "id")
         .where("date", "<", sql<Date>`NOW() - INTERVAL '30 days'`)
         .where("is_sensitive", "=", true)
-        .select("id"),
+        .select("id")
     )
     .execute();
-  console.log(`Deleted ${result.length} sensitive questions`);
+
+  log(`Deleted ${result.length} sensitive questions`);
 };
 
 export const deleteOldStrikes = async (ctx: AppContext) => {
+  log("Deleting old strikes");
+
   const result = await ctx.db
     .deleteFrom("strike_info")
     .where("created_at", "<", sql<Date>`NOW() - INTERVAL '1 year'`)
     .execute();
-  console.log(`Deleted ${result.length} old strikes`);
+
+  log(`Deleted ${result.length} old strikes`);
 };
 
 export const unbanUsers = async (ctx: AppContext) => {
+  log("Unbanning users");
+
   const response = await fetch("https://echo.uib.no/api/unban", {
     method: "POST",
     headers: {
@@ -34,19 +43,24 @@ export const unbanUsers = async (ctx: AppContext) => {
     },
   });
 
-  console.log("Ping to /api/unban:", response.status);
+  log(`Ping to /api/unban: ${response.status}`);
 };
 
 export const resetYear = async (ctx: AppContext) => {
+  log("Resetting users' years");
+
   const result = await ctx.db
     .updateTable("user")
     .set("year", null)
     .returning("id")
     .execute();
-  console.log(`Reset ${result.length} users' years`);
+
+  log(`Reset ${result.length} users' years`);
 };
 
 export const checkForNewFeedbacks = async (ctx: AppContext) => {
+  log("Checking for new feedbacks");
+
   const feedbacks = await ctx.db
     .selectFrom("site_feedback")
     .selectAll()
@@ -54,7 +68,7 @@ export const checkForNewFeedbacks = async (ctx: AppContext) => {
     .where("is_read", "=", false)
     .execute();
 
-  console.log(`Found ${feedbacks.length} new feedbacks`);
+  log(`Found ${feedbacks.length} new feedbacks`);
 
   if (feedbacks.length > 0) {
     const email = new EmailClient(ctx.env.RESEND_API_KEY);
@@ -73,7 +87,7 @@ export const checkForNewFeedbacks = async (ctx: AppContext) => {
         })</p>
         <p>${feedback.message}</p>
       </div>
-      </li>`,
+      </li>`
       ),
       "</ul>",
     ].join("");
