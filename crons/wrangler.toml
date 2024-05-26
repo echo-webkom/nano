@@ -4,6 +4,8 @@ compatibility_date = "2023-12-01"
 
 compatibility_flags = [ "nodejs_compat" ]
 
+logpush = true
+
 [triggers]
 crons = [
     "0 0 1 1,7 *",
