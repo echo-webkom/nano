@@ -1,13 +1,13 @@
 const RESEND_API_URL = "https://api.resend.com/emails";
 
-class EmailClient {
+export class EmailClient {
   apiKey: string;
 
   constructor(apiKey: string) {
     this.apiKey = apiKey;
   }
 
-  async sendEmail(to: Array<string>, subject: string, body: string) {
+  async send(to: Array<string>, subject: string, body: string) {
     if (!this.apiKey) {
       console.error("No RESEND_API_KEY provided");
 
