@@ -54,6 +54,16 @@ kroner.at("0 0 1 1,7 *", async (c) => {
 });
 
 kroner.at("0 0 1 7 *", async (c) => {
+  const result = await c.vars.db
+    .updateTable("user")
+    .set("year", null)
+    .returning("id")
+    .execute();
+
+  log(`Reset ${result.length} users' years`);
+});
+
+kroner.at("0 2 * * *", async (c) => {
   const response = await fetch("https://echo.uib.no/api/unban", {
     method: "POST",
     headers: {
@@ -62,16 +72,6 @@ kroner.at("0 0 1 7 *", async (c) => {
   });
 
   log(`Ping to /api/unban: ${response.status}`);
-});
-
-kroner.at("0 2 * * *", async (c) => {
-  const result = await c.vars.db
-    .updateTable("user")
-    .set("year", null)
-    .returning("id")
-    .execute();
-
-  log(`Reset ${result.length} users' years`);
 });
 
 kroner.at("0 16 * * *", async (c) => {
