@@ -1,7 +1,7 @@
 import { createDatabase, sql } from "@echo-webkom/nano-db";
+import { Logger } from "@echo-webkom/logger";
+import { Email } from "@echo-webkom/email";
 import { Kroner } from "./kroner";
-import { log } from "./logger";
-import { EmailClient } from "./email";
 
 type Bindings = {
   RESEND_API_KEY: string;
@@ -11,7 +11,7 @@ type Bindings = {
 
 type Variables = {
   db: ReturnType<typeof createDatabase>;
-  email: EmailClient;
+  email: Email;
 };
 
 const kroner = new Kroner<{
@@ -22,7 +22,7 @@ const kroner = new Kroner<{
 kroner.setup((c) => {
   return {
     db: createDatabase(c.env.HYPERDRIVE),
-    email: new EmailClient(c.env.RESEND_API_KEY),
+    email: new Email(c.env.RESEND_API_KEY),
   };
 });
 
@@ -41,7 +41,7 @@ kroner.at("0 0 1 1,7 *", async (c) => {
     )
     .execute();
 
-  log(`Deleted ${result.length} sensitive questions`);
+  Logger.info(`Deleted ${result.length} sensitive questions`);
 });
 
 kroner.at("0 0 1 1,7 *", async (c) => {
@@ -50,7 +50,7 @@ kroner.at("0 0 1 1,7 *", async (c) => {
     .where("created_at", "<", sql<Date>`NOW() - INTERVAL '1 year'`)
     .execute();
 
-  log(`Deleted ${result.length} old strikes`);
+  Logger.info(`Deleted ${result.length} old strikes`);
 });
 
 kroner.at("0 0 1 7 *", async (c) => {
@@ -60,7 +60,7 @@ kroner.at("0 0 1 7 *", async (c) => {
     .returning("id")
     .execute();
 
-  log(`Reset ${result.length} users' years`);
+  Logger.info(`Reset ${result.length} users' years`);
 });
 
 kroner.at("0 2 * * *", async (c) => {
@@ -71,7 +71,7 @@ kroner.at("0 2 * * *", async (c) => {
     },
   });
 
-  log(`Ping to /api/unban: ${response.status}`);
+  Logger.info(`Ping to /api/unban: ${response.status}`);
 });
 
 kroner.at("0 16 * * *", async (c) => {
@@ -82,7 +82,7 @@ kroner.at("0 16 * * *", async (c) => {
     .where("is_read", "=", false)
     .execute();
 
-  log(`Found ${feedbacks.length} new feedbacks`);
+  Logger.info(`Found ${feedbacks.length} new feedbacks`);
 
   // No new feedbacks
   if (!feedbacks.length) {

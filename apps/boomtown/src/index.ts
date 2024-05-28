@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { createDatabase, sql } from "@echo-webkom/nano-db";
+import { createDatabase } from "@echo-webkom/nano-db";
 import { RegistrationCounter } from "./registration-counter";
 import { auth } from "./middleware";
 

@@ -42,6 +42,12 @@ importers:
 
   apps/crons:
     dependencies:
+      '@echo-webkom/email':
+        specifier: workspace:*
+        version: link:../../packages/email
+      '@echo-webkom/logger':
+        specifier: workspace:*
+        version: link:../../packages/logger
       '@echo-webkom/nano-db':
         specifier: workspace:*
         version: link:../../packages/db
@@ -127,6 +133,10 @@ importers:
       '@cloudflare/workers-types':
         specifier: 4.20240512.0
         version: 4.20240512.0
+
+  packages/email: {}
+
+  packages/logger: {}
 
 packages:
 

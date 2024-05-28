@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import * as Striker from "./striker";
-import * as Reporter from "./reporter";
+import * as Striker from "./services/striker";
+import * as Reporter from "./services/reporter";
 import { auth } from "./middleware";
 
 export type Bindings = {

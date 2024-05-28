@@ -1,6 +1,6 @@
 interface Job<Bindings, Variables> {
   schedule: string;
-  handler: (ctx: Context<Bindings, Variables>) => Promise<void>;
+  handler: (ctx: Context<Bindings, Variables>) => Promise<void> | void;
 }
 
 interface Bindings {
@@ -33,7 +33,9 @@ export class Kroner<E extends Env = Env> {
 
   at = (
     schedule: string,
-    handler: (ctx: Context<E["Bindings"], E["Variables"]>) => Promise<void>
+    handler: (
+      ctx: Context<E["Bindings"], E["Variables"]>
+    ) => Promise<void> | void
   ) => {
     this.jobs.push({
       schedule,

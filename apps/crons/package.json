@@ -7,7 +7,9 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@echo-webkom/nano-db": "workspace:*"
+    "@echo-webkom/nano-db": "workspace:*",
+    "@echo-webkom/logger": "workspace:*",
+    "@echo-webkom/email": "workspace:*"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "0.2.12",

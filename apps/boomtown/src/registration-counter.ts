@@ -5,10 +5,18 @@ type Message = {
   waitlistCount: number;
 };
 
+/**
+ * RegistrationCounter is a Durable Object that keeps track
+ * of the registration count and broadcasts it to all connected
+ * clients.
+ */
 export class RegistrationCounter extends DurableObject {
   private clients: Map<WebSocket, null> = new Map();
 
   async fetch(request: Request): Promise<Response> {
+    /**
+     * Check if the request is a WebSocket upgrade request.
+     */
     const upgradeHeader = request.headers.get("Upgrade");
     if (!upgradeHeader || upgradeHeader !== "websocket") {
       return new Response("Upgrade websocket", {
@@ -21,6 +29,9 @@ export class RegistrationCounter extends DurableObject {
 
     server.accept();
 
+    /**
+     * Add the new WebSocket client map of connected clients.
+     */
     this.clients.set(server, null);
 
     /**

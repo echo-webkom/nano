@@ -10,7 +10,7 @@ import type { Bindings } from "hono/types";
  */
 export const auth: MiddlewareHandler<{ Bindings: Bindings }> = async (
   c,
-  next,
+  next
 ) => {
   // If there is no secret, just run the next handler
   // We assume this is a local development environment
