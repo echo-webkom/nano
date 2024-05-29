@@ -67,7 +67,7 @@ kroner.at("0 2 * * *", async (c) => {
   const response = await fetch("https://echo.uib.no/api/unban", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${c.env.ADMIN_KEY}`,
+      Authorization: `admin:${c.env.ADMIN_KEY}`,
     },
   });
 
