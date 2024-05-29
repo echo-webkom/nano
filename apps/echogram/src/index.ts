@@ -2,7 +2,6 @@ import { Hono } from "hono";
 import { auth } from "./middleware";
 
 export type Bindings = {
-  SECRET: string;
   R2: R2Bucket;
   ADMIN_KEY: string;
 };

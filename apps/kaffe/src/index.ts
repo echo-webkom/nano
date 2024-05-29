@@ -5,7 +5,7 @@ import { auth } from "./middleware";
 
 export type Bindings = {
   KV: KVNamespace;
-  SECRET: string;
+  ADMIN_KEY: string;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();

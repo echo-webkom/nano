@@ -14,8 +14,8 @@ custom_domain = true
 
 [[r2_buckets]]
 binding = "R2"
-bucket_name = "echogram"
-jurisdiction = "eu"
+bucket_name = "avatars"
+#jurisdiction = "eu"
 
 [dev]
 port = 8001
