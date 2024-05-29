@@ -14,12 +14,12 @@ export const auth: MiddlewareHandler<{ Bindings: Bindings }> = async (
 ) => {
   // If there is no secret, just run the next handler
   // We assume this is a local development environment
-  if (!c.env.SECRET) {
+  if (!c.env.ADMIN_KEY) {
     return next();
   }
 
   const token = c.req.header("Authorization");
-  if (token !== `Bearer ${c.env.SECRET}`) {
+  if (token !== `Bearer ${c.env.ADMIN_KEY}`) {
     return c.text("Unauthorized", { status: 401 });
   }
 

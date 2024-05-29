@@ -6,7 +6,7 @@ import { Kroner } from "./kroner";
 type Bindings = {
   RESEND_API_KEY: string;
   ADMIN_KEY: string;
-  HYPERDRIVE: Hyperdrive;
+  DATABASE_URL: string;
 };
 
 type Variables = {
@@ -21,7 +21,7 @@ const kroner = new Kroner<{
 
 kroner.setup((c) => {
   return {
-    db: createDatabase(c.env.HYPERDRIVE),
+    db: createDatabase(c.env.DATABASE_URL),
     email: new Email(c.env.RESEND_API_KEY),
   };
 });

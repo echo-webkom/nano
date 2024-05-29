@@ -5,7 +5,8 @@ import { auth } from "./middleware";
 
 type Bindings = {
   COUNTER: DurableObjectNamespace<RegistrationCounter>;
-  HYPERDRIVE: Hyperdrive;
+  DATABASE_URL: string;
+  ADMIN_KEY: string;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -16,7 +17,7 @@ app.post("/:id", auth, async (c) => {
     const durableObjectId = c.env.COUNTER.idFromName(id);
     const stub = c.env.COUNTER.get(durableObjectId);
 
-    const db = createDatabase(c.env.HYPERDRIVE);
+    const db = createDatabase(c.env.DATABASE_URL);
 
     const resp = await db
       .selectFrom("registration")

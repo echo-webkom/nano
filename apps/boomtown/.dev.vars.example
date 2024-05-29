@@ -1,1 +1,2 @@
-SECRET=foobar
+ADMIN_KEY=foobar
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/echo-web
