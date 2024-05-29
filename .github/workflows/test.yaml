@@ -43,7 +43,7 @@ jobs:
       - name: 📝 Create .dev.vars
         working-directory: apps/kaffe
         run: |
-          echo "SECRET=foobar" > .dev.vars
+          echo "ADMIN_KEY=foobar" > .dev.vars
 
       - name: 🧪 Run tests
         run: pnpm --filter=kaffe test
@@ -65,7 +65,7 @@ jobs:
       - name: 📝 Create .dev.vars
         working-directory: apps/echogram
         run: |
-          echo "SECRET=foobar" > .dev.vars
+          echo "ADMIN_KEY=foobar" > .dev.vars
 
       - name: 🧪 Run tests
         run: pnpm --filter=echogram test
