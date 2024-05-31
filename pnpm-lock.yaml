@@ -118,6 +118,28 @@ importers:
         specifier: 3.57.1
         version: 3.57.1(@cloudflare/workers-types@4.20240512.0)
 
+  apps/ratelimit:
+    dependencies:
+      hono:
+        specifier: 4.3.9
+        version: 4.3.9
+    devDependencies:
+      '@cloudflare/vitest-pool-workers':
+        specifier: 0.2.12
+        version: 0.2.12(@cloudflare/workers-types@4.20240512.0)(@vitest/runner@1.6.0)(@vitest/snapshot@1.6.0)(vitest@1.5.0(@types/node@20.12.12))
+      '@cloudflare/workers-types':
+        specifier: 4.20240512.0
+        version: 4.20240512.0
+      typescript:
+        specifier: 5.4.5
+        version: 5.4.5
+      vitest:
+        specifier: 1.5.0
+        version: 1.5.0(@types/node@20.12.12)
+      wrangler:
+        specifier: 3.57.1
+        version: 3.57.1(@cloudflare/workers-types@4.20240512.0)
+
   packages/db:
     dependencies:
       kysely:
