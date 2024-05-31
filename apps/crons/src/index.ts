@@ -1,6 +1,7 @@
 import { createDatabase, sql } from "@echo-webkom/nano-db";
 import { Logger } from "@echo-webkom/logger";
 import { Email } from "@echo-webkom/email";
+import { atob } from "node:buffer";
 import { Kroner } from "./kroner";
 
 type Bindings = {
@@ -67,7 +68,7 @@ kroner.at("0 2 * * *", async (c) => {
   const response = await fetch("https://echo.uib.no/api/unban", {
     method: "POST",
     headers: {
-      Authorization: `admin:${c.env.ADMIN_KEY}`,
+      Authorization: atob(`admin:${c.env.ADMIN_KEY}`),
     },
   });
 
