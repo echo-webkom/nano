@@ -2,12 +2,13 @@
   "name": "@echo-webkom/nano-db",
   "version": "1.0.0",
   "scripts": {
-    "db:typegen": "kysely-codegen --env-file .dev.vars --out-file \"./types.ts\""
+    "db:typegen": "kysely-codegen --env-file .dev.vars --out-file \"./types.ts\"",
+    "clean": "rm -rf node_modules .turbo"
   },
   "dependencies": {
     "kysely": "0.27.3",
     "kysely-postgres-js": "2.0.0",
-    "postgres": "^3.4.4"
+    "postgres": "3.4.4"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20240512.0"

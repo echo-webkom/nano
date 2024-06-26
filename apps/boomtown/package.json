@@ -2,9 +2,10 @@
   "name": "@echo-webkom/boomtown",
   "scripts": {
     "build": "tsc",
-    "dev": "wrangler dev src/index.ts",
+    "dev": "wrangler dev src/index.ts --show-interactive-dev-session false",
     "deploy": "wrangler deploy --minify src/index.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "clean": "rm -rf .wrangler node_modules .turbo"
   },
   "dependencies": {
     "hono": "4.3.9",

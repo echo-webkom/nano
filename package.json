@@ -1,6 +1,10 @@
 {
   "name": "@echo-webkom/nano",
+  "packageManager": "pnpm@9.1.4",
   "scripts": {
+    "dev": "turbo run dev",
+    "clean": "rm -rf node_modules .turbo",
+    "clean-workspaces": "turbo run clean",
     "format": "biome format --write .",
     "lint": "biome lint .",
     "lint:fix": "biome lint --apply .",
@@ -8,6 +12,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",
+    "turbo": "2.0.5",
     "vitest": "1.5.0"
   }
 }

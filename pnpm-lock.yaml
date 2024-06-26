@@ -11,6 +11,9 @@ importers:
       '@biomejs/biome':
         specifier: 1.7.3
         version: 1.7.3
+      turbo:
+        specifier: 2.0.5
+        version: 2.0.5
       vitest:
         specifier: 1.5.0
         version: 1.5.0(@types/node@20.12.12)
@@ -59,10 +62,10 @@ importers:
         specifier: 4.20240512.0
         version: 4.20240512.0
       kysely-codegen:
-        specifier: ^0.15.0
+        specifier: 0.15.0
         version: 0.15.0(kysely@0.27.3)(pg@8.11.5)
       pg:
-        specifier: ^8.11.5
+        specifier: 8.11.5
         version: 8.11.5
       typescript:
         specifier: 5.4.5
@@ -127,16 +130,24 @@ importers:
         specifier: 2.0.0
         version: 2.0.0(kysely@0.27.3)(postgres@3.4.4)
       postgres:
-        specifier: ^3.4.4
+        specifier: 3.4.4
         version: 3.4.4
     devDependencies:
       '@cloudflare/workers-types':
         specifier: 4.20240512.0
         version: 4.20240512.0
 
-  packages/email: {}
+  packages/email:
+    devDependencies:
+      typescript:
+        specifier: 5.4.5
+        version: 5.4.5
 
-  packages/logger: {}
+  packages/logger:
+    devDependencies:
+      typescript:
+        specifier: 5.4.5
+        version: 5.4.5
 
 packages:
 
@@ -1284,6 +1295,40 @@ packages:
   tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
 
+  turbo-darwin-64@2.0.5:
+    resolution: {integrity: sha512-t/9XpWYIjOhIHUdwiR47SYBGYHkR1zWLxTkTNKZwCSn8BN0cfjPZ1BR6kcwYGxLGBhtl5GBf6A29nq2K7iwAjg==}
+    cpu: [x64]
+    os: [darwin]
+
+  turbo-darwin-arm64@2.0.5:
+    resolution: {integrity: sha512-//5y4RJvnal8CttOLBwlaBqblcQb1qTlIxLN+I8O3E3rPuvHOupNKB9ZJxYIQ8oWf8ns8Ec8cxQ0GSBLTJIMtA==}
+    cpu: [arm64]
+    os: [darwin]
+
+  turbo-linux-64@2.0.5:
+    resolution: {integrity: sha512-LDtEDU2Gm8p3lKu//aHXZFRKUCVu68BNF9LQ+HmiCKFpNyK7khpMTxIAAUhDqt+AzlrbxtrxcCpCJaWg1JDjHg==}
+    cpu: [x64]
+    os: [linux]
+
+  turbo-linux-arm64@2.0.5:
+    resolution: {integrity: sha512-84wdrzntErBNxkHcwHxiTZdaginQAxGPnwLTyZj8lpUYI7okPoxy3jKpUeMHN3adm3iDedl/x0mYSIvVVkmOiA==}
+    cpu: [arm64]
+    os: [linux]
+
+  turbo-windows-64@2.0.5:
+    resolution: {integrity: sha512-SgaFZ0VW6kHCJogLNuLEleAauAJx2Y48wazZGVRmBpgSUS2AylXesaBMhJaEScYqLz7mIRn6KOgwM8D4wTxI9g==}
+    cpu: [x64]
+    os: [win32]
+
+  turbo-windows-arm64@2.0.5:
+    resolution: {integrity: sha512-foUxLOZoru0IRNIxm53fkfM4ubas9P0nTFjIcHtd+E8YHeogt8GqTweNre2e6ri1EHDo71emmuQgpuoFCOXZMg==}
+    cpu: [arm64]
+    os: [win32]
+
+  turbo@2.0.5:
+    resolution: {integrity: sha512-+6+hcWr4nwuESlKqUc626HMOTd3QT8hUOc9QM45PP1d4nErGkNOgExm4Pcov3in7LTuadMnB0gcd/BuzkEDIPw==}
+    hasBin: true
+
   type-detect@4.0.8:
     resolution: {integrity: sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==}
     engines: {node: '>=4'}
@@ -2381,6 +2426,33 @@ snapshots:
       is-number: 7.0.0
 
   tslib@2.6.2: {}
+
+  turbo-darwin-64@2.0.5:
+    optional: true
+
+  turbo-darwin-arm64@2.0.5:
+    optional: true
+
+  turbo-linux-64@2.0.5:
+    optional: true
+
+  turbo-linux-arm64@2.0.5:
+    optional: true
+
+  turbo-windows-64@2.0.5:
+    optional: true
+
+  turbo-windows-arm64@2.0.5:
+    optional: true
+
+  turbo@2.0.5:
+    optionalDependencies:
+      turbo-darwin-64: 2.0.5
+      turbo-darwin-arm64: 2.0.5
+      turbo-linux-64: 2.0.5
+      turbo-linux-arm64: 2.0.5
+      turbo-windows-64: 2.0.5
+      turbo-windows-arm64: 2.0.5
 
   type-detect@4.0.8: {}
 
