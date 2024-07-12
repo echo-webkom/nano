@@ -61,9 +61,6 @@ importers:
       '@cloudflare/workers-types':
         specifier: 4.20240512.0
         version: 4.20240512.0
-      kysely-codegen:
-        specifier: 0.15.0
-        version: 0.15.0(kysely@0.27.3)(pg@8.11.5)
       pg:
         specifier: 8.11.5
         version: 8.11.5
@@ -136,6 +133,9 @@ importers:
       '@cloudflare/workers-types':
         specifier: 4.20240512.0
         version: 4.20240512.0
+      kysely-codegen:
+        specifier: 0.15.0
+        version: 0.15.0(kysely@0.27.3)(pg@8.11.5)
 
   packages/email:
     devDependencies:

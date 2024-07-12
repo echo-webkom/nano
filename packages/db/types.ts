@@ -39,6 +39,13 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export type UserType = "alum" | "company" | "guest" | "student";
 
+export interface AccessRequest {
+  created_at: Generated<Timestamp>;
+  email: string;
+  id: string;
+  reason: string;
+}
+
 export interface Account {
   access_token: string | null;
   expires_at: number | null;
@@ -103,6 +110,12 @@ export interface HappeningsToGroups {
   happening_id: string;
 }
 
+export interface Kv {
+  key: string;
+  ttl: Generated<Timestamp | null>;
+  value: Json | null;
+}
+
 export interface Question {
   happening_id: string;
   id: string;
@@ -121,9 +134,11 @@ export interface Reaction {
 }
 
 export interface Registration {
+  changed_at: Timestamp | null;
+  changed_by: string | null;
   created_at: Generated<Timestamp>;
   happening_id: string;
-  registration_changed_at: string | null;
+  prev_status: RegistrationStatus | null;
   status: Generated<RegistrationStatus>;
   unregister_reason: string | null;
   user_id: string;
@@ -214,6 +229,7 @@ export interface Whitelist {
 }
 
 export interface DB {
+  access_request: AccessRequest;
   account: Account;
   answer: Answer;
   comment: Comment;
@@ -222,6 +238,7 @@ export interface DB {
   group: Group;
   happening: Happening;
   happenings_to_groups: HappeningsToGroups;
+  kv: Kv;
   question: Question;
   reaction: Reaction;
   registration: Registration;
