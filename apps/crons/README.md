@@ -31,3 +31,9 @@ Unban users that have invalid strikes.
 > Runs every day at 16:00.
 
 Send an email to notify of new feedbacks.
+
+## Delete expired kv entries
+
+> Runs every day at 00:00.
+
+Delete kv entries that have expired.

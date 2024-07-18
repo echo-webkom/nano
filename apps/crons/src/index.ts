@@ -111,4 +111,16 @@ kroner.at("0 16 * * *", async (c) => {
   await c.vars.email.send(to, subject, body);
 });
 
+kroner.at("0 0 1 1 *", async (c) => {
+  const keys = await c.vars.db.selectFrom("kv").selectAll().execute();
+
+  for (const key of keys) {
+    const expiration = key.ttl?.getTime();
+    if (expiration && expiration < Date.now()) {
+      await c.vars.db.deleteFrom("kv").where("key", "=", key.key).execute();
+      Logger.info(`Deleted kv entry: ${key.key}`);
+    }
+  }
+});
+
 export default kroner;
