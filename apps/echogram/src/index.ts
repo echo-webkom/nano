@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { auth } from "./middleware";
+import { nanoid } from "nanoid";
 
 export type Bindings = {
   R2: R2Bucket;
@@ -45,7 +46,19 @@ app.post("/:id", auth, async (c) => {
 
   const body = await file.arrayBuffer();
 
-  await c.env.R2.put(id, body);
+  const object = await c.env.R2.get(id);
+  if (object) {
+    await c.env.R2.delete(id);
+  }
+
+  const etag = nanoid(32);
+
+  const httpMetadata = new Headers();
+  httpMetadata.set("etag", etag);
+
+  await c.env.R2.put(id, body, {
+    httpMetadata,
+  });
 
   return c.json({
     message: "File uploaded",
