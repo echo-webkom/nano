@@ -21,6 +21,8 @@ app.get("/:id", async (c) => {
   const headers = new Headers();
   object.writeHttpMetadata(headers);
   headers.set("etag", object.etag);
+  headers.set("cache-control", "public, max-age=31536000");
+  headers.set("expires", new Date(Date.now() + 31536000000).toUTCString());
 
   return new Response(object.body, {
     headers,
