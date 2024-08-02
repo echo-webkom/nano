@@ -112,15 +112,22 @@ kroner.at("0 16 * * *", async (c) => {
 });
 
 kroner.at("0 0 1 1 *", async (c) => {
-  const keys = await c.vars.db.selectFrom("kv").selectAll().execute();
+  const keys = await c.vars.db
+    .selectFrom("kv")
+    .selectAll()
+    .where("ttl", "<", sql<Date>`NOW()`)
+    .execute();
 
-  for (const key of keys) {
-    const expiration = key.ttl?.getTime();
-    if (expiration && expiration < Date.now()) {
-      await c.vars.db.deleteFrom("kv").where("key", "=", key.key).execute();
-      Logger.info(`Deleted kv entry: ${key.key}`);
-    }
-  }
+  await c.vars.db
+    .deleteFrom("kv")
+    .where(
+      "key",
+      "in",
+      keys.map((key) => key.key)
+    )
+    .execute();
+
+  Logger.info(`Deleted ${keys.length} expired kv entries`);
 });
 
 export default kroner;
