@@ -8,7 +8,7 @@
     "clean": "rm -rf .wrangler node_modules .turbo"
   },
   "dependencies": {
-    "hono": "4.3.9",
+    "hono": "4.5.8",
     "@echo-webkom/nano-db": "workspace:*"
   },
   "devDependencies": {
