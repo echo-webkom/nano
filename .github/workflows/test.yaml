@@ -26,28 +26,6 @@ jobs:
       - name: 🧪 Run tests
         run: pnpm --filter=crons test
 
-  test-kaffe:
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v3
-        with:
-          version: 9
-
-      - name: 🚚 Install dependencies
-        run: pnpm install
-
-      - name: 📝 Create .dev.vars
-        working-directory: apps/kaffe
-        run: |
-          echo "ADMIN_KEY=foobar" > .dev.vars
-
-      - name: 🧪 Run tests
-        run: pnpm --filter=kaffe test
-
   test-echogram:
     runs-on: ubuntu-latest
     timeout-minutes: 60
