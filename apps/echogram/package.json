@@ -8,7 +8,7 @@
     "clean": "rm -rf .wrangler node_modules .turbo"
   },
   "dependencies": {
-    "hono": "4.3.9",
+    "hono": "4.6.5",
     "nanoid": "^5.0.7"
   },
   "devDependencies": {
