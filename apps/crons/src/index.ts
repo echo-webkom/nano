@@ -89,7 +89,12 @@ kroner.at("0 16 * * *", async (c) => {
     return;
   }
 
-  const to = ["me@omfj.no", "n.d.engh@gmail.com", "KjetilAlvestad@gmail.com"];
+  const to = [
+    "me@omfj.no",
+    "n.d.engh@gmail.com",
+    "zenoelioleone@gmail.com",
+    "webkom-styret@echo.uib.no",
+  ];
   const subject = `${feedbacks.length} ny(e) tilbakemeldinger på echo.uib.no`;
 
   const body = [
@@ -128,6 +133,15 @@ kroner.at("0 0 1 1 *", async (c) => {
     .execute();
 
   Logger.info(`Deleted ${keys.length} expired kv entries`);
+});
+
+kroner.at("0 1 * * *", async (c) => {
+  await fetch("https://api.programmer.bar/", {
+    method: "POST",
+    body: JSON.stringify({ status: 0 }),
+  });
+
+  Logger.info("Closed bar");
 });
 
 export default kroner;
