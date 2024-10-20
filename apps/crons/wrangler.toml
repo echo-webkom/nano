@@ -1,16 +1,20 @@
-#:schema node_modules/wrangler/config-schema.json
 name = "crons"
 main = "src/index.ts"
-compatibility_date = "2024-04-03"
-
+compatibility_date = "2024-09-02"
 compatibility_flags = [ "nodejs_compat" ]
 
 #logpush = true
 workers_dev = false
 
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+
 [[routes]]
 pattern = "crons.echo-webkom.no"
 custom_domain = true
+
 
 [triggers]
 crons = [
@@ -21,6 +25,7 @@ crons = [
     "0 0 1 1 *",
     "0 1 * * *"
 ]
+
 
 [dev]
 port = 8000
