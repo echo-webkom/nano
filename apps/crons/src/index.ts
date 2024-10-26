@@ -144,4 +144,9 @@ kroner.at("0 2 * * *", async (c) => {
   Logger.info("Closed bar");
 });
 
-export default kroner;
+export default {
+  fetch: () => {
+    return new Response("OK", { status: 200 });
+  },
+  scheduled: kroner.scheduled,
+} satisfies ExportedHandler<Bindings>;
