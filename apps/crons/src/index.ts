@@ -136,12 +136,12 @@ kroner.at("0 0 1 1 *", async (c) => {
 });
 
 kroner.at("0 2 * * *", async (c) => {
-  await fetch("https://api.programmer.bar/", {
+  const resp = await fetch("https://api.programmer.bar/", {
     method: "POST",
     body: JSON.stringify({ status: 0 }),
   });
 
-  Logger.info("Closed bar");
+  Logger.info("Attempted to close bar. Got status,", resp.status);
 });
 
 export default {
