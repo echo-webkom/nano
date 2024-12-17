@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "hono": "4.6.5",
-    "nanoid": "5.0.7"
+    "nanoid": "5.0.9"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "0.5.20",
