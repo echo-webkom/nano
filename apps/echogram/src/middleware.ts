@@ -1,27 +1,16 @@
-import type { MiddlewareHandler } from "hono";
-import type { Bindings } from "hono/types";
+import { createMiddleware } from "hono/factory";
 
-/**
- * Check if the request authorization header matches the secret
- *
- * @param c hono context
- * @param next next handler
- * @returns the next handler
- */
-export const auth: MiddlewareHandler<{ Bindings: Bindings }> = async (
-  c,
-  next
-) => {
-  // If there is no secret, just run the next handler
-  // We assume this is a local development environment
-  if (!c.env.ADMIN_KEY) {
-    return next();
-  }
+export const auth = () => {
+  return createMiddleware(async (c, next) => {
+    if (!c.env.ADMIN_KEY) {
+      return await next();
+    }
 
-  const token = c.req.header("Authorization");
-  if (token !== `Bearer ${c.env.ADMIN_KEY}`) {
-    return c.text("Unauthorized", { status: 401 });
-  }
+    const token = c.req.header("Authorization");
+    if (token !== `Bearer ${c.env.ADMIN_KEY}`) {
+      return c.text("Unauthorized", { status: 401 });
+    }
 
-  return next();
+    return await next();
+  });
 };
