@@ -8,9 +8,10 @@
     "clean": "rm -rf .wrangler node_modules .turbo"
   },
   "dependencies": {
-    "@echo-webkom/nano-db": "workspace:*",
+    "@echo-webkom/email": "workspace:*",
     "@echo-webkom/logger": "workspace:*",
-    "@echo-webkom/email": "workspace:*"
+    "@echo-webkom/nano-db": "workspace:*",
+    "@sanity/client": "^6.27.2"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "0.5.20",
