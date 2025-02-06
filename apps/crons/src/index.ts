@@ -2,16 +2,20 @@ import { createDatabase, sql } from "@echo-webkom/nano-db";
 import { Logger } from "@echo-webkom/logger";
 import { Email } from "@echo-webkom/email";
 import { Kroner } from "./kroner";
+import { createSanity } from "./sanity";
 
 type Bindings = {
   RESEND_API_KEY: string;
   ADMIN_KEY: string;
   DATABASE_URL: string;
+  SANITY_PROJECT_ID: string;
+  SANITY_TOKEN: string;
 };
 
 type Variables = {
   db: ReturnType<typeof createDatabase>;
   email: Email;
+  sanity: ReturnType<typeof createSanity>;
 };
 
 const kroner = new Kroner<{
@@ -23,6 +27,10 @@ kroner.setup((c) => {
   return {
     db: createDatabase(c.env.DATABASE_URL),
     email: new Email(c.env.RESEND_API_KEY),
+    sanity: createSanity({
+      projectId: c.env.SANITY_PROJECT_ID,
+      token: c.env.SANITY_TOKEN,
+    }),
   };
 });
 
@@ -74,6 +82,32 @@ kroner.at("0 2 * * *", async (c) => {
   Logger.info(`Ping to /api/unban: ${response.status}`);
 });
 
+kroner.at("0 2 * * *", async (c) => {
+  const happenings = await c.vars.sanity.fetch<Array<{ id: string }>>(
+    `*[_type == "happening" && isPinned == true && defined(registrationEnd) && dateTime(registrationEnd) < dateTime(now())] {
+  "id": _id
+}
+`
+  );
+
+  if (happenings.length > 0) {
+    await c.vars.sanity
+      .transaction(
+        happenings.map((h) => ({
+          patch: {
+            id: h.id,
+            set: {
+              isPinned: false,
+            },
+          },
+        }))
+      )
+      .commit();
+  }
+
+  Logger.info(`Updated ${happenings.length} pinned happenings`);
+});
+
 kroner.at("0 16 * * *", async (c) => {
   const feedbacks = await c.vars.db
     .selectFrom("site_feedback")
@@ -89,12 +123,7 @@ kroner.at("0 16 * * *", async (c) => {
     return;
   }
 
-  const to = [
-    "me@omfj.no",
-    "n.d.engh@gmail.com",
-    "zenoelioleone@gmail.com",
-    "webkom-styret@echo.uib.no",
-  ];
+  const to = ["me@omfj.no", "n.d.engh@gmail.com", "zenoelioleone@gmail.com"];
   const subject = `${feedbacks.length} ny(e) tilbakemeldinger på echo.uib.no`;
 
   const body = [
@@ -135,13 +164,13 @@ kroner.at("0 0 1 1 *", async (c) => {
   Logger.info(`Deleted ${keys.length} expired kv entries`);
 });
 
-kroner.at("0 2 * * *", async (c) => {
-  const resp = await fetch("https://api.programmer.bar/", {
+kroner.at("0 2 * * *", async () => {
+  const response = await fetch("https://api.programmer.bar/", {
     method: "POST",
     body: JSON.stringify({ status: 0 }),
   });
 
-  Logger.info("Attempted to close bar. Got status,", resp.status);
+  Logger.info(`Attempted to close bar. Got status, ${response.status}`);
 });
 
 export default {
