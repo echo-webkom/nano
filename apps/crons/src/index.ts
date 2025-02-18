@@ -3,6 +3,7 @@ import { Logger } from "@echo-webkom/logger";
 import { Email } from "@echo-webkom/email";
 import { Kroner } from "./kroner";
 import { createSanity } from "./sanity";
+import { escapehtml } from "./utils";
 
 type Bindings = {
   RESEND_API_KEY: string;
@@ -72,17 +73,6 @@ kroner.at("0 0 1 7 *", async (c) => {
 });
 
 kroner.at("0 2 * * *", async (c) => {
-  const response = await fetch("https://echo.uib.no/api/unban", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${c.env.ADMIN_KEY}`,
-    },
-  });
-
-  Logger.info(`Ping to /api/unban: ${response.status}`);
-});
-
-kroner.at("0 2 * * *", async (c) => {
   const happenings = await c.vars.sanity.fetch<Array<{ id: string }>>(
     `*[_type == "happening" && isPinned == true && defined(registrationEnd) && dateTime(registrationEnd) < dateTime(now())] {
   "id": _id
@@ -132,10 +122,10 @@ kroner.at("0 16 * * *", async (c) => {
     ...feedbacks.map(
       (feedback) => `<li>
     <div>
-      <p><strong>${feedback.name ?? "Ukjent"}</strong> (${
-        feedback.email ?? "Ingen e-post"
-      })</p>
-      <p>${feedback.message}</p>
+      <p><strong>${escapehtml(
+        feedback.name ?? "Ukjent"
+      )}</strong> (${escapehtml(feedback.email ?? "Ingen e-post")})</p>
+      <p>${escapehtml(feedback.message)}</p>
     </div>
     </li>`
     ),
@@ -171,6 +161,17 @@ kroner.at("0 2 * * *", async () => {
   });
 
   Logger.info(`Attempted to close bar. Got status, ${response.status}`);
+});
+
+kroner.at("0 2 * * *", async () => {
+  const response = await fetch("https://api.echo-webkom.no/strikes/unban", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${process.env.ADMIN_KEY}`,
+    },
+  });
+
+  Logger.info(`Attempted to unban users. Got status, ${response.status}`);
 });
 
 export default {
