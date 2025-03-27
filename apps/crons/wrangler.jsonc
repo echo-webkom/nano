@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "crons",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-27",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": false,
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "routes": [
+    {
+      "pattern": "crons.echo-webkom.no",
+      "custom_domain": true
+    }
+  ],
+  "triggers": {
+    "crons": [
+      "0 0 1 1,7 *",
+      "0 0 1 7 *",
+      "0 2 * * *",
+      "0 16 * * *",
+      "0 0 1 1 *"
+    ]
+  },
+  "dev": {
+    "port": 8000
+  }
+}

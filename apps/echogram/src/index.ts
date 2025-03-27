@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { auth } from "./middleware";
 import { nanoid } from "nanoid";
+import { bodyLimit } from "hono/body-limit";
 
 export type Bindings = {
   R2: R2Bucket;
