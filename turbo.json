@@ -1,21 +1,17 @@
 {
-    "$schema": "https://turborepo.org/schema.json",
-    "tasks": {
-      "dev": {
-        "persistent": true,
-        "cache": false
-      },
-      "clean": {
-        "cache": false
-      },
-      "//#clean": {
-        "cache": false
-      }
+  "$schema": "https://turborepo.org/schema.json",
+  "tasks": {
+    "dev": {
+      "persistent": true,
+      "cache": false
     },
-    "globalDependencies": ["**/.env"],
-    "globalEnv": [
-      "RESEND_API_KEY",
-      "ADMIN_KEY",
-      "DATABASE_URL"
-    ]
-  }
+    "clean": {
+      "cache": false
+    },
+    "//#clean": {
+      "cache": false
+    }
+  },
+  "globalDependencies": ["**/.env"],
+  "globalEnv": ["RESEND_API_KEY", "ADMIN_KEY", "DATABASE_URL"]
+}

@@ -8,7 +8,11 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
 
 export type HappeningType = "bedpres" | "event" | "external";
 
-export type Int8 = ColumnType<string, bigint | number | string, bigint | number | string>;
+export type Int8 = ColumnType<
+  string,
+  bigint | number | string,
+  bigint | number | string
+>;
 
 export type Json = JsonValue;
 
@@ -24,7 +28,12 @@ export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
 
 export type QuestionType = "checkbox" | "radio" | "text" | "textarea";
 
-export type RegistrationStatus = "pending" | "registered" | "removed" | "unregistered" | "waiting";
+export type RegistrationStatus =
+  | "pending"
+  | "registered"
+  | "removed"
+  | "unregistered"
+  | "waiting";
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 

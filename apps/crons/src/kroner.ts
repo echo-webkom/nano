@@ -24,7 +24,7 @@ interface Env {
 }
 
 type SetupFunction<Bindings, Variables> = (
-  ctx: Context<Bindings, Record<string, never>>
+  ctx: Context<Bindings, Record<string, never>>,
 ) => Variables;
 
 export class Kroner<E extends Env = Env> {
@@ -34,8 +34,8 @@ export class Kroner<E extends Env = Env> {
   at = (
     schedule: string,
     handler: (
-      ctx: Context<E["Bindings"], E["Variables"]>
-    ) => Promise<void> | void
+      ctx: Context<E["Bindings"], E["Variables"]>,
+    ) => Promise<void> | void,
   ) => {
     this.jobs.push({
       schedule,
@@ -46,7 +46,7 @@ export class Kroner<E extends Env = Env> {
   };
 
   setup = (
-    setupFunction: SetupFunction<E["Bindings"], E["Variables"]>
+    setupFunction: SetupFunction<E["Bindings"], E["Variables"]>,
   ): this => {
     this.setupFunction = setupFunction;
     return this;
@@ -55,14 +55,14 @@ export class Kroner<E extends Env = Env> {
   scheduled = async (
     controller: ScheduledController,
     env?: E["Bindings"],
-    ctx?: ExecutionContext
+    ctx?: ExecutionContext,
   ): Promise<void> => {
     if (!Array.isArray(this.jobs)) {
       throw new Error("Jobs array is not initialized!");
     }
 
     const jobsToRun = this.jobs.filter(
-      (job) => job.schedule === controller.cron
+      (job) => job.schedule === controller.cron,
     );
 
     console.log(`[Kroner] Running ${jobsToRun.length} jobs`);
