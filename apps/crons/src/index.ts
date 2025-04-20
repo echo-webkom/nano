@@ -3,7 +3,7 @@ import { Logger } from "@echo-webkom/logger";
 import { Email } from "@echo-webkom/email";
 import { Kroner } from "./kroner";
 import { createSanity } from "./sanity";
-import { calculateHappeningXp, escapehtml } from "./utils";
+import { escapehtml } from "./utils";
 
 type Bindings = {
   RESEND_API_KEY: string;
@@ -46,7 +46,7 @@ kroner.at("0 0 1 1,7 *", async (c) => {
         .leftJoin("happening", "happening_id", "id")
         .where("date", "<", sql<Date>`NOW() - INTERVAL '30 days'`)
         .where("is_sensitive", "=", true)
-        .select("id"),
+        .select("id")
     )
     .execute();
 
@@ -77,7 +77,7 @@ kroner.at("0 2 * * *", async (c) => {
     `*[_type == "happening" && isPinned == true && defined(registrationEnd) && dateTime(registrationEnd) < dateTime(now())] {
   "id": _id
 }
-`,
+`
   );
 
   if (happenings.length > 0) {
@@ -90,7 +90,7 @@ kroner.at("0 2 * * *", async (c) => {
               isPinned: false,
             },
           },
-        })),
+        }))
       )
       .commit();
   }
@@ -123,11 +123,11 @@ kroner.at("0 16 * * *", async (c) => {
       (feedback) => `<li>
     <div>
       <p><strong>${escapehtml(
-        feedback.name ?? "Ukjent",
+        feedback.name ?? "Ukjent"
       )}</strong> (${escapehtml(feedback.email ?? "Ingen e-post")})</p>
       <p>${escapehtml(feedback.message)}</p>
     </div>
-    </li>`,
+    </li>`
     ),
     "</ul>",
   ].join("");
@@ -135,31 +135,29 @@ kroner.at("0 16 * * *", async (c) => {
   await c.vars.email.send(to, subject, body);
 });
 
-kroner.at("0 2 * * *", async (c) => {
-  const happenings = await c.vars.sanity.fetch<Array<{ _id: string, cost: number | null, happeningType: string }>>(
-    "*[_type == 'happening' && dateTime(date) >= dateTime(now()) - 60 * 60 * 24 * 2 && dateTime(date) < dateTime(now()) - 60 * 60 * 24 * 1] {_id, cost, happeningType }",
-  );
+// kroner.at("0 2 * * *", async (c) => {
+//   const happenings = await c.vars.sanity.fetch<Array<{ _id: string, cost: number | null, happeningType: string }>>(
+//     "*[_type == 'happening' && dateTime(date) >= dateTime(now()) - 60 * 60 * 24 * 2 && dateTime(date) < dateTime(now()) - 60 * 60 * 24 * 1] {_id, cost, happeningType }",
+//   );
 
-  const registeredUsers = happenings.map((happening) => {
-    return c.vars.db
-      .selectFrom("registration")
-      .selectAll()
-      .where("happening_id", "=", happening._id)
-      .where("status", "=", "registered");
-  });
+//   const registeredUsers = happenings.map((happening) => {
+//     return c.vars.db
+//       .selectFrom("registration")
+//       .selectAll()
+//       .where("happening_id", "=", happening._id)
+//       .where("status", "=", "registered");
+//   });
 
-  happenings.map((happening) => {
-    const users = registeredUsers.filter((user) => user.happening_id  === happening._id )  
-  
-    const xp = calculateHappeningXp(users.length, happening.cost, happening.happeningType)
+//   happenings.map((happening) => {
+//     const users = registeredUsers.filter((user) => user.happening_id  === happening._id )
 
-    const response = 
-  
-  })
+//     const xp = calculateHappeningXp(users.length, happening.cost, happening.happeningType)
 
+//     const response =
 
+//   })
 
-});
+// });
 
 kroner.at("0 0 1 1 *", async (c) => {
   const keys = await c.vars.db
@@ -173,7 +171,7 @@ kroner.at("0 0 1 1 *", async (c) => {
     .where(
       "key",
       "in",
-      keys.map((key) => key.key),
+      keys.map((key) => key.key)
     )
     .execute();
 
