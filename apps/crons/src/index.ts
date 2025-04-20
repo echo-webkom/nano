@@ -189,11 +189,11 @@ kroner.at("0 2 * * *", async () => {
   Logger.info(`Attempted to close bar. Got status, ${response.status}`);
 });
 
-kroner.at("0 2 * * *", async () => {
+kroner.at("0 2 * * *", async (c) => {
   const response = await fetch("https://api.echo-webkom.no/strikes/unban", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${process.env.ADMIN_KEY}`,
+      Authorization: `Bearer ${c.env.ADMIN_KEY}`,
     },
   });
 
