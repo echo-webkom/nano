@@ -1,12 +1,9 @@
 import { createDatabase, sql } from "@echo-webkom/nano-db";
 import { Logger } from "@echo-webkom/logger";
-import { Email } from "@echo-webkom/email";
 import { Kroner } from "./kroner";
 import { createSanity } from "./sanity";
-import { escapehtml } from "./utils";
 
 type Bindings = {
-  RESEND_API_KEY: string;
   ADMIN_KEY: string;
   DATABASE_URL: string;
   SANITY_PROJECT_ID: string;
@@ -15,7 +12,6 @@ type Bindings = {
 
 type Variables = {
   db: ReturnType<typeof createDatabase>;
-  email: Email;
   sanity: ReturnType<typeof createSanity>;
 };
 
@@ -27,7 +23,6 @@ const kroner = new Kroner<{
 kroner.setup((c) => {
   return {
     db: createDatabase(c.env.DATABASE_URL),
-    email: new Email(c.env.RESEND_API_KEY),
     sanity: createSanity({
       projectId: c.env.SANITY_PROJECT_ID,
       token: c.env.SANITY_TOKEN,
@@ -46,7 +41,7 @@ kroner.at("0 0 1 1,7 *", async (c) => {
         .leftJoin("happening", "happening_id", "id")
         .where("date", "<", sql<Date>`NOW() - INTERVAL '30 days'`)
         .where("is_sensitive", "=", true)
-        .select("id")
+        .select("id"),
     )
     .execute();
 
@@ -77,7 +72,7 @@ kroner.at("0 2 * * *", async (c) => {
     `*[_type == "happening" && isPinned == true && defined(registrationEnd) && dateTime(registrationEnd) < dateTime(now())] {
   "id": _id
 }
-`
+`,
   );
 
   if (happenings.length > 0) {
@@ -90,74 +85,13 @@ kroner.at("0 2 * * *", async (c) => {
               isPinned: false,
             },
           },
-        }))
+        })),
       )
       .commit();
   }
 
   Logger.info(`Updated ${happenings.length} pinned happenings`);
 });
-
-kroner.at("0 16 * * *", async (c) => {
-  const feedbacks = await c.vars.db
-    .selectFrom("site_feedback")
-    .selectAll()
-    .where("created_at", ">", sql<Date>`NOW() - INTERVAL '1 day'`)
-    .where("is_read", "=", false)
-    .execute();
-
-  Logger.info(`Found ${feedbacks.length} new feedbacks`);
-
-  // No new feedbacks
-  if (!feedbacks.length) {
-    return;
-  }
-
-  const to = ["me@omfj.no", "n.d.engh@gmail.com", "zenoelioleone@gmail.com"];
-  const subject = `${feedbacks.length} ny(e) tilbakemeldinger på echo.uib.no`;
-
-  const body = [
-    `<p>Det har kommet ${feedbacks.length} ny(e) tilbakemelding(er) på <a href="https://echo.uib.no">echo.uib.no</a>. Les de(n) <a href="https://echo.uib.no/admin/tilbakemeldinger">her</a>.</p>`,
-    '<ul style="padding-top: 2rem;">',
-    ...feedbacks.map(
-      (feedback) => `<li>
-    <div>
-      <p><strong>${escapehtml(
-        feedback.name ?? "Ukjent"
-      )}</strong> (${escapehtml(feedback.email ?? "Ingen e-post")})</p>
-      <p>${escapehtml(feedback.message)}</p>
-    </div>
-    </li>`
-    ),
-    "</ul>",
-  ].join("");
-
-  await c.vars.email.send(to, subject, body);
-});
-
-// kroner.at("0 2 * * *", async (c) => {
-//   const happenings = await c.vars.sanity.fetch<Array<{ _id: string, cost: number | null, happeningType: string }>>(
-//     "*[_type == 'happening' && dateTime(date) >= dateTime(now()) - 60 * 60 * 24 * 2 && dateTime(date) < dateTime(now()) - 60 * 60 * 24 * 1] {_id, cost, happeningType }",
-//   );
-
-//   const registeredUsers = happenings.map((happening) => {
-//     return c.vars.db
-//       .selectFrom("registration")
-//       .selectAll()
-//       .where("happening_id", "=", happening._id)
-//       .where("status", "=", "registered");
-//   });
-
-//   happenings.map((happening) => {
-//     const users = registeredUsers.filter((user) => user.happening_id  === happening._id )
-
-//     const xp = calculateHappeningXp(users.length, happening.cost, happening.happeningType)
-
-//     const response =
-
-//   })
-
-// });
 
 kroner.at("0 0 1 1 *", async (c) => {
   const keys = await c.vars.db
@@ -171,7 +105,7 @@ kroner.at("0 0 1 1 *", async (c) => {
     .where(
       "key",
       "in",
-      keys.map((key) => key.key)
+      keys.map((key) => key.key),
     )
     .execute();
 
@@ -179,7 +113,7 @@ kroner.at("0 0 1 1 *", async (c) => {
 });
 
 kroner.at("0 2 * * *", async () => {
-  const response = await fetch("https://api.programmer.bar/", {
+  const response = await fetch("https://programmer.bar/api/status", {
     method: "POST",
     body: JSON.stringify({ status: 0 }),
   });

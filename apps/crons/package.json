@@ -8,17 +8,16 @@
     "clean": "rm -rf .wrangler node_modules .turbo"
   },
   "dependencies": {
-    "@echo-webkom/email": "workspace:*",
     "@echo-webkom/logger": "workspace:*",
     "@echo-webkom/nano-db": "workspace:*",
-    "@sanity/client": "^6.27.2"
+    "@sanity/client": "^7.8.2"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "0.5.20",
-    "@cloudflare/workers-types": "4.20240512.0",
-    "pg": "8.13.0",
-    "typescript": "5.6.3",
+    "@cloudflare/vitest-pool-workers": "0.8.65",
+    "@cloudflare/workers-types": "4.20250819.0",
+    "pg": "8.16.3",
+    "typescript": "5.9.2",
     "vitest": "2.1.3",
-    "wrangler": "4.5.1"
+    "wrangler": "4.31.0"
   }
 }

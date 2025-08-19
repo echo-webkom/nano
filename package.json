@@ -3,6 +3,7 @@
   "packageManager": "pnpm@9.1.4",
   "scripts": {
     "dev": "turbo run dev",
+    "build": "turbo run build",
     "clean": "rm -rf node_modules .turbo",
     "clean-workspaces": "turbo run clean",
     "format": "biome format --write .",
@@ -12,8 +13,8 @@
     "db:typegen": "pnpm --filter=nano-db db:typegen"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "turbo": "2.2.1",
+    "@biomejs/biome": "2.2.0",
+    "turbo": "2.5.6",
     "vitest": "2.1.3"
   }
 }
