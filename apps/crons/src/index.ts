@@ -122,7 +122,7 @@ kroner.at("0 2 * * *", async () => {
 });
 
 kroner.at("0 2 * * *", async (c) => {
-  const response = await fetch("https://api.echo-webkom.no/strikes/unban", {
+  const response = await fetch("https://uno.echo-webkom.no/strikes/unban", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${c.env.ADMIN_KEY}`,
