@@ -125,7 +125,7 @@ kroner.at("0 2 * * *", async (c) => {
   const response = await fetch("https://uno.echo-webkom.no/strikes/unban", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${c.env.ADMIN_KEY}`,
+      "X-Admin-Key": `${c.env.ADMIN_KEY}`,
     },
   });
 
